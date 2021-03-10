@@ -12,7 +12,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     EditText inputtxt;
     TextView outputtext;
-    String mn;
+    Button btncalc;
+    TCPClient c;
 
 
 
@@ -23,19 +24,30 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btn);
         inputtxt = findViewById(R.id.inputField);
         outputtext = findViewById(R.id.outputField);
+        btncalc = findViewById(R.id.btncalc);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mn = inputtxt.getText().toString();
                 try {
-                    TCPClient c = new TCPClient();
-                    c.start();
-
-                    //text übergeben und returnen
+                    c = new TCPClient();
+                    outputtext.setText(c.getOutputForUser());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        btncalc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                c.setInputFromUser(inputtxt.getText().toString());
+                try {
+                    c.join();   //waits for thread to finish
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                outputtext.setText(c.getOutputForUser());
             }
         });
     }
