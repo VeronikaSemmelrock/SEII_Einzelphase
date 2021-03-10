@@ -28,7 +28,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mn = inputtxt.getText().toString();
+                try {
+                    TCPClient c = new TCPClient();
+                    c.start();
 
+                    //text übergeben und returnen
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
