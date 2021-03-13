@@ -20,11 +20,11 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
     public Button btn;
     public EditText inputtxt;
-    public static TextView outputtext;
+    public TextView outputtext;
     public Button btncalc;
     private String output;
     private String input;
-    private static TextView outputtextCalc;
+    private TextView outputtextCalc;
 
 
 
@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
                     Socket clientSocket = new Socket("se2-isys.aau.at", 53212);
                     DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //output attached to socket - so output to server
                     BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //input attached to socket - so input read from server
-                    outToServer.writeBytes(sending+"\n");
+                    outToServer.writeBytes(sending+"\n"); //\n necessary for it working - probably server intern readLine();
                     String answer = inFromServer.readLine();
 
-                    runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {//works without, but makes freezing of screen because of output less likely
                         @Override
                         public void run() {
                             outputtext.setText(answer);
